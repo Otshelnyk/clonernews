@@ -1,7 +1,9 @@
+// js/main.js — ИСПРАВЛЕННАЯ ВЕРСИЯ (без ошибок No such item/user)
+
 const API = "https://hacker-news.firebaseio.com/v0";
 
 const $ = (sel) => document.querySelector(sel);
-const $$   = (sel) => document.querySelectorAll(sel);
+const $$ = (sel) => document.querySelectorAll(sel);
 
 const postsEl = $('#posts');
 const loadingEl = $('#loading');
@@ -21,7 +23,7 @@ const endpoints = {
 };
 
 // === Табы ===
-  $$('.tab').forEach(tab => {
+$$('.tab').forEach(tab => {
   tab.addEventListener('click', () => {
     $$('.tab').forEach(t => t.classList.remove('active'));
     tab.classList.add('active');
@@ -70,21 +72,21 @@ const renderPost = async (item) => {
 
   div.innerHTML = `
     <div class="post-title">
-      <a href="$$ {url}" target="_blank" rel="noopener"> $${title}</a>${typeBadge}
+      <a href="${url}" target="_blank" rel="noopener">${title}</a>${typeBadge}
       ${domain ? ` <span style="color:#888;font-size:0.9rem">(${domain})</span>` : ''}
     </div>
     <div class="post-meta">
       ${item.score || 0} points by 
-      <a href="https://news.ycombinator.com/user?id=$$ {item.by}"> $${item.by || 'unknown'}</a>
+      <a href="#" class="user-link" data-user="${item.by || ''}">${item.by || 'unknown'}</a>
       ${timeAgo(item.time)} |
-      <a href="https://news.ycombinator.com/item?id=$$ {item.id}"> $${item.descendants || 0} comments</a>
+      <a href="#" class="comments-link" data-id="${item.id}">${item.descendants || 0} comments</a>
     </div>
   `;
 
   // Poll options
   if (item.type === 'poll' && item.kids) {
     const pollDiv = document.createElement('div');
-    for (const kid of item.kids.slice(0, 20)) {
+    for (const kid of item.kids) {
       const opt = await getItem(kid);
       if (opt && opt.type === 'pollopt') {
         const el = document.createElement('div');
@@ -96,10 +98,10 @@ const renderPost = async (item) => {
     div.appendChild(pollDiv);
   }
 
-  // Comments toggle
+  // Кнопка показа комментариев (как было)
   if (item.kids?.length) {
     const toggle = document.createElement('div');
-    toggle.style.cssText = 'margin-top:0.8rem;color:var(--link);cursor:pointer;font-weight:600;';
+    toggle.style.cssText = 'margin-top:0.9rem;color:var(--link);cursor:pointer;font-weight:600;font-size:0.95rem;';
     toggle.textContent = `Show ${item.kids.length} comments`;
     toggle.onclick = () => loadComments(item.kids, div, toggle);
     div.appendChild(toggle);
@@ -108,13 +110,12 @@ const renderPost = async (item) => {
   postsEl.appendChild(div);
 };
 
-// === Вложенные комментарии ===
+// === Вложенные комментарии (без изменений) ===
 const loadComments = async (kids, parentEl, toggleEl) => {
   toggleEl.textContent = 'Loading…';
   const container = document.createElement('div');
   container.className = 'comments';
 
-  // от новых к старым
   const sorted = [...kids].sort((a, b) => b - a);
 
   for (const id of sorted.slice(0, 100)) {
@@ -156,11 +157,11 @@ const loadMore = async () => {
   let added = 0;
 
   for (const id of ids) {
-    if (loadedIds.has(id) || added >= 30) continue;
+    if (loadedIds.has(id) || added >= 30) break;
     const item = await getItem(id);
     if (!item || item.dead || item.deleted) continue;
 
-    renderPost(item);
+    await renderPost(item);
     loadedIds.add(id);
     added++;
   }
@@ -174,7 +175,28 @@ window.addEventListener('scroll', () => {
   }
 });
 
-// === Live updates каждые 5 секунд (throttled) ===
+// === КЛИКИ ПО АВТОРУ И КОММЕНТАРИЯМ — БЕЗ ОШИБОК ===
+document.addEventListener('click', (e) => {
+  // Клик по имени пользователя
+  if (e.target.classList.contains('user-link')) {
+    e.preventDefault();
+    const user = e.target.dataset.user;
+    if (user && user !== 'unknown') {
+      window.open(`https://news.ycombinator.com/user?id=${user}`, '_blank');
+    }
+  }
+
+  // Клик по "X comments" — открываем оригинальный тред на HN
+  if (e.target.classList.contains('comments-link')) {
+    e.preventDefault();
+    const id = e.target.dataset.id;
+    if (id) {
+      window.open(`https://news.ycombinator.com/item?id=${id}`, '_blank');
+    }
+  }
+});
+
+// === Live updates каждые 5 секунд ===
 setInterval(async () => {
   try {
     const { items = [] } = await fetchJSON(`${API}/updates.json`);
@@ -184,3 +206,6 @@ setInterval(async () => {
     }
   } catch (e) { }
 }, 5000);
+
+// Старт
+loadMore();
