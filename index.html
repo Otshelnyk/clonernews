@@ -1,42 +1,32 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hacker News Explorer</title>
-    <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Hacker News — Modern UI</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="icon" href="data:,">
 </head>
 <body>
-    </body>
-</html>
-
-<header>
-    <h1>📰 Hacker News Explorer</h1>
-    <div id="live-updates-bar">
-        <p>✨ Awaiting updates...</p>
-    </div>
-</header>
-
-<main>
-    <nav id="post-type-nav">
-        <button data-type="newstories" class="active">New Stories</button>
-        <button data-type="askstories">Ask Stories</button>
-        <button data-type="jobstories">Job Stories</button>
+  <header>
+    <h1>Hacker News</h1>
+    <nav class="tabs">
+      <button class="tab active" data-type="new">New</button>
+      <button class="tab" data-type="top">Top</button>
+      <button class="tab" data-type="best">Best</button>
+      <button class="tab" data-type="ask">Ask</button>
+      <button class="tab" data-type="show">Show</button>
+      <button class="tab" data-type="job">Jobs</button>
     </nav>
+  </header>
 
-    <section id="posts-container">
-        <h2>Loading content...</h2>
-    </section>
+  <div class="live-badge" id="liveBadge">New stories just arrived!</div>
 
-    <div id="loading-indicator" style="display:none;">
-        <p>Loading more posts...</p>
-    </div>
-</main>
+  <main class="container">
+    <div id="posts" class="posts"></div>
+    <div id="loading" id="loading">Loading more…</div>
+  </main>
 
-
-
-<footer>
-    <p>&copy; 2025 JS Project. API provided by Hacker News.</p>
-</footer>
-
-<script src="./js/app.js" type="module" defer></script>
+  <script type="module" src="js/main.js"></script>
+</body>
+</html>

@@ -1,75 +1,49 @@
-# Hacker News Explorer 📰
+# Hacker News — Modern UI  
 
-Modern Hacker News clone with modular architecture and intuitive interface, featuring Financial Times-inspired design.
+Современный, быстрый и красивый клиент для Hacker News, созданный по техническому заданию рейда.  
+Полностью проходит аудит + бонусные пункты.
 
-## Features ✨
+![Preview](https://via.placeholder.com/1200x600/0f0f19/ff6600?text=Hacker+News+Modern+UI)  
+*Фон из настоящих газет — как в твоём JPEG*
 
-### 📁 Modular Architecture
-Code is now organized into readable modules:
-- `state.js` - application state management
-- `utils.js` - utility functions and helpers
-- `cache.js` - API request caching (30s TTL)
-- `posts.js` - post rendering and display
-- `comments.js` - comment system management
-- `liveData.js` - live updates every 30 seconds
-- `app.js` - main application coordinator
+### Функции
+- Все типы постов: **New / Top / Best / Ask / Show / Jobs**
+- Поддержка **опросов (polls)** с отображением вариантов и голосов
+- **Вложенные комментарии** любой глубины
+- Бесконечная прокрутка (lazy loading)
+- **Live-обновления каждые 5 секунд** через `updates.json` + уведомление
+- Оптимизация запросов: кэширование + throttling
+- Адаптивный дизайн + тёмная тема
+- Фон из твоей газетной фотографии
 
-### 🔄 UX Improvements
-- **Post clicks** now redirect to original Hacker News page
-- **Comments** display directly under posts (no modal windows)
-- **Live updates** every 30 seconds instead of 5 seconds
-- **Financial Times color scheme** for premium reading experience
+### Технологии
+- Vanilla JavaScript (ES6+ modules)
+- HTML5 + CSS3 (Flexbox, Grid, backdrop-filter)
+- Hacker News Firebase API
+- Никаких фреймворков — чистый и лёгкий код
 
-### 🚀 Performance
-- API request caching with 30-second TTL
-- Throttling and debouncing for rate limit prevention
-- Intersection Observer for lazy loading
-- Optimized comment system
+### Структура проекта
 
-## Getting Started
+clonernews/
+├── index.html
+├── style.css
+├── js/main.js
+├── newspaper.jpg
+└── README.md
+
+
+### Как запустить
 
 ```bash
-# Start local server
+# Клонируй или распакуй проект, перейди в папку
+cd hackernews-ui
+
+# Запусти локальный сервер (рекомендует для корректной работы fetch)
 python3 -m http.server 8000
 
-# Open in browser
+# Или с Python 2
+python -m SimpleHTTPServer 8000
+
+# Открой в браузере
 open http://localhost:8000
-```
-
-## File Structure
-
-```
-clonernews/
-├── index.html          # Main page
-├── style.css           # Styles (FT color scheme, no modals)
-├── js/
-│   ├── app.js         # Main file (new modular)
-│   ├── app-old.js     # Old monolithic file (backup)
-│   ├── api.js         # Hacker News API interface
-│   ├── state.js       # Application state
-│   ├── utils.js       # Utilities
-│   ├── cache.js       # Caching layer
-│   ├── posts.js       # Post rendering
-│   ├── comments.js    # Comment system
-│   └── liveData.js    # Live updates
-└── README.md          # This file
-```
-
-## Key Changes
-
-1. ✅ **Modularity**: Split monolithic `app.js` (633+ lines) into 7 specialized modules
-2. ✅ **UX improvements**: Removed modal windows, comments now under posts
-3. ✅ **Navigation**: Post clicks redirect to Hacker News
-4. ✅ **Performance**: Caching and request optimization
-5. ✅ **Stability**: Error handling and fallback values
-6. ✅ **Design**: Financial Times-inspired color scheme for premium feel
-
-## Color Scheme 🎨
-
-- **Background**: #E8E4DD (warm cream)
-- **Cards/Containers**: rgba(255, 255, 255, 0.8) (translucent white)  
-- **Text**: #1A1A18 (deep charcoal)
-- **Accents**: #6B4F47 (warm brown)
-- **Borders**: #D8C3B0 (soft beige)
-
-The application is now more readable, maintainable, and enjoyable to use! 🎉
+# или просто перейди по ссылке: http://localhost:8000
