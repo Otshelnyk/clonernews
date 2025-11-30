@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hacker News Explorer</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    </body>
+</html>
+
+<header>
+    <h1>📰 Hacker News Explorer</h1>
+    <div id="live-updates-bar">
+        <p>✨ Awaiting updates...</p>
+    </div>
+</header>
+
+<main>
+    <nav id="post-type-nav">
+        <button data-type="newstories" class="active">New Stories</button>
+        <button data-type="askstories">Ask Stories</button>
+        <button data-type="jobstories">Job Stories</button>
+    </nav>
+
+    <section id="posts-container">
+        <h2>Loading content...</h2>
+    </section>
+
+    <div id="loading-indicator" style="display:none;">
+        <p>Loading more posts...</p>
+    </div>
+</main>
+
+
+
+<footer>
+    <p>&copy; 2025 JS Project. API provided by Hacker News.</p>
+</footer>
+
+<script src="./js/app.js" type="module" defer></script>
